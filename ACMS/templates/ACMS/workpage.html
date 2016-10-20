@@ -1,0 +1,329 @@
+{% extends 'ACMS/homepage.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    <title>Workpage</title>
+{% endblock title %}
+
+{% block bootstrap %}
+    {{block.super}}
+    <!-- Simple-sidebar  CSS -->
+    <link href="{% static 'ACMS/css/simple-sidebar.css' %}" rel="stylesheet" />
+{% endblock bootstrap %}
+
+
+
+{% block content %}
+     <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="{% url 'ACMS:homepage' %}">Homepage <span style="padding-left: 10px; vertical-align: middle;" class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> </a>
+                </li>
+                <li>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                      <!-- patient panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="dashboard">
+                              <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#dashboard-submenu" aria-expanded="true" aria-controls="dashboard-submenu">
+                                  Dashboard
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="dashboard-submenu" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="dashboard">
+                              <div class="list-group">
+
+                              </div>
+                            </div>
+                        </div>
+                      <!-- patient panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="patient">
+                              <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#patient-submenu" aria-expanded="false" aria-controls="patient-submenu">
+                                  Patient
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="patient-submenu" class="panel-collapse collapse " role="tabpanel" aria-labelledby="patient">
+                              <div class="list-group">
+                                <ul>
+                                    <li><a id="addPatient"  role="button" data-toggle="modal" data-target="#patientFormModal">Add Patient</a></li>
+                                    <li><a href="#">Find Patient</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                      <!-- drug panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="drug">
+                              <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#drug-submenu" aria-expanded="false" aria-controls="drug-submenu">
+                                  Drugs
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="drug-submenu" class="panel-collapse collapse" role="tabpanel" aria-labelledby="drug">
+                              <div class="list-group">
+                                <ul>
+                                    <li><a role="button" data-toggle="modal" data-target="#drugFormModal">Add Drug</a></li>
+                                    <li><a href="#">Find Drug</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                      <!-- authorization code panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="authorization-code">
+                              <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#authorization-code-submenu" aria-expanded="false" aria-controls="authorization-code-submenu">
+                                  Authorization Code
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="authorization-code-submenu" class="panel-collapse collapse" role="tabpanel" aria-labelledby="authorization-code">
+                              <div class="list-group">
+                               <ul>
+                                    <li><a href="#">Add Authorization Code</a></li>
+                                    <li><a href="#">Find Authorization Code</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                      <!-- hmo panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="hmo">
+                              <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#hmo-submenu" aria-expanded="false" aria-controls="hmo-submenu">
+                                  HMO
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="hmo-submenu" class="panel-collapse collapse" role="tabpanel" aria-labelledby="hmo">
+                              <div class="list-group">
+                                <ul>
+                                    <li><a role="button" data-toggle="modal" data-target="#hmoFormModal">Add HMO</a></li>
+                                    <li><a href="#">Find HMO</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                      <!-- backup panel -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="backup">
+                              <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#backup-submenu" aria-expanded="false" aria-controls="backup-submenu">
+                                  Backup
+                                </a>
+                              </h4>
+                            </div>
+                            <div id="backup-submenu" class="panel-collapse collapse" role="tabpanel" aria-labelledby="backup">
+                              <div class="list-group">
+                               <ul>
+                                    <li><a href="#">Create Backup</a></li>
+                                    <li><a href="#">Restore Backup</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+               
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Simple Sidebar</h1>
+                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+
+<!-- patient form -->
+<div class="modal fade modalForm" id="patientFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-backdrop ="static" >
+      <div  class="modal-dialog " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" name="button" class="close" data-dismiss="modal" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 id="modalLabel">New Patient</h4>
+          </div><!-- modal-header -->
+          <div class="modal-body">
+             <form id="patientForm" action="{% url 'ACMS:patient' %}" method="post">
+                 {% csrf_token %}
+              <div class="form-group">
+                <label for="surname">Surname<span id="required">*</span></label>
+                  {{ patient_form.surname }}
+              </div>
+              <div class="form-group">
+                <label for="firstname">Firstname<span id="required">*</span></label>
+                {{ patient_form.firstname }}
+              </div>
+              <div class="form-group">
+                <label for="othername">Othername<span id="required">*</span></label>
+                {{ patient_form.othername }}
+              </div>
+              <div class="form-group">
+                <label for="cardNo">Card No<span id="required">*</span></label>
+                {{ patient_form.cardNo }}
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender<span id="required">*</span></label>
+                    {{ patient_form.gender }}
+              </div>
+               <div class="form-group">
+                <label for="mobile">Mobile<span id="required">*</span></label>
+                {{ patient_form.mobileNo }}
+              </div>
+              <div class="form-group">
+                <label for="hmo">HMO<span id="required">*</span></label>
+                {{ patient_form.hmo }}
+              </div>
+              <div class="form-group">
+                <label for="origin">State of Origin<span id="required">*</span></label>
+                {{ patient_form.origin }}
+              </div>
+              <div class="form-group">
+                <label for="address">Address<span id="required">*</span></label>
+                {{ patient_form.address }}
+              </div>
+              <div class="form-group">
+                  <input style="width: 100%" class= "btn btn-danger" type="submit" value="Submit" >
+              </div>
+            </form>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of patient modal form -->
+
+<!-- drug form -->
+<div class="modal fade modalForm" id="drugFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-backdrop ="static" >
+      <div  class="modal-dialog " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" name="button" class="close" data-dismiss="modal" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 id="modalLabel">New Drug</h4>
+          </div><!-- modal-header -->
+          <div class="modal-body">
+             <form id="drugForm" action="{% url 'ACMS:drug' %}" method="post">
+                 {% csrf_token %}
+              <div class="form-group">
+                <label for="drugname">Drug Name</label>
+                {{ drug_form.drug_name }}
+              </div>
+              <div class="form-group">
+                <label for="drugcode">Drug Code</label>
+                {{ drug_form.drug_code }}
+              </div>
+              <div class="form-group">
+                  <input style="width: 100%" class= "btn btn-danger" type="submit" value="Add Drug" >
+              </div>
+            </form>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of drug modal form -->
+
+<!-- hmo form -->
+<div class="modal fade modalForm" id="hmoFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-backdrop ="static" >
+      <div  class="modal-dialog " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" name="button" class="close" data-dismiss="modal" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 id="modalLabel">New HMO</h4>
+          </div><!-- modal-header -->
+          <div class="modal-body">
+             <form id="hmoForm" action="{% url 'ACMS:hmo' %}" method="post">
+                 {% csrf_token %}
+              <div class="form-group">
+                <label for="name">HMO Name</label>
+                {{ hmo_form.name }}
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile No</label>
+                {{ hmo_form.mobile }}
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                {{ hmo_form.email }}
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                {{ hmo_form.address }}
+              </div>
+              <div class="form-group">
+                <label for="hmo_status">Status</label>
+                {{ hmo_form.hmo_status }}
+              </div>
+              <div class="form-group">
+                  <input style="width: 100%" class= "btn btn-danger" type="submit" value="Add HMO" >
+              </div>
+            </form>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of hmo modal form -->
+
+
+<!-- alert modal -->
+
+<div class="modal fade" {% if messages %} id="alert-modal" {% else %} id="dont-alert-modal" {% endif %} tabindex="-1" role="dialog" aria-labelledby="modalLabel"  >
+      <div  class="modal-dialog " role="document">
+        <div  id="form-feedback-alert" class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+              {% for message in messages %}
+                  {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <h4 class="text-success"><strong>Successful</strong></h4>
+                  {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <h4 class="text-danger"><strong>Error</strong></h4>
+                  {% endif %}
+                  <p>{{ message }}</p>
+              {% endfor %}
+
+        </div>
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of alert modal  -->
+
+<!-- importing change password form from homepage -->
+{% block changePasswordForm %}
+    {{ block.super }}
+{% endblock changePasswordForm %}
+
+{% endblock content %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block scripts %}
+    {{block.super}}
+     <!-- Menu Toggle Script -->
+    <script>
+        $("#brandName").attr({href : "#menu-toggle", id : "menu-toggle"});
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+    </script>
+{% endblock scripts %}
