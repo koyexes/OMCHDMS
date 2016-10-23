@@ -53,7 +53,7 @@ class Migration(migrations.Migration):
                 ('address', models.CharField(default='NIL', max_length=50)),
                 ('date_added', models.DateTimeField(default=django.utils.timezone.now)),
                 ('added_by', models.ForeignKey(default=1L, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('hmo', models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='ACMS.hmo', verbose_name='hmo_id')),
+                ('hmo', models.ForeignKey(default=1L, on_delete=django.db.models.deletion.CASCADE, to='ACMS.hmo', verbose_name='hmo_id')),
             ],
         ),
         migrations.CreateModel(

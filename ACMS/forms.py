@@ -1,5 +1,5 @@
 from django import forms
-from models import state, hmo_list, patient, drug
+from models import state, hmo, patient, drug
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length = 20)
@@ -15,7 +15,7 @@ class PatientForm(forms.Form):
     mobileNo = forms.CharField( widget= forms.TextInput(attrs= attributes))
     address = forms.CharField( widget= forms.TextInput(attrs= attributes))
     origin = forms.ModelChoiceField(widget=forms.Select(attrs=attributes), queryset= state.objects.order_by("state_name"), empty_label="Select a State")
-    hmo = forms.ModelChoiceField( widget=forms.Select(attrs=attributes), queryset= hmo_list.objects.order_by("name"), empty_label= "Select an HMO")
+    hmo = forms.ModelChoiceField( widget=forms.Select(attrs=attributes), queryset= hmo.objects.order_by("name"), empty_label= "Select an HMO")
 
     def __init__ (self, *args, **kwargs):
         self.user = kwargs.pop('user', None)

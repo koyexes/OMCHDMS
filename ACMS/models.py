@@ -26,17 +26,17 @@ class state(models.Model):
         return ("%s" % self.state_name)
 
 class patient(models.Model):
-    surname = models.CharField(max_length = 20)
-    firstname = models.CharField(max_length = 20)
-    othernames = models.CharField(max_length= 20, null=True, default="NIL")
-    card_no = models.CharField(max_length = 15)
+    surname = models.CharField(max_length = 50)
+    firstname = models.CharField(max_length = 50)
+    othernames = models.CharField(max_length= 50, null=True, default="NIL")
+    card_no = models.CharField(max_length = 50)
     gender = models.CharField(max_length = 1, choices=(("M", "Male"), ("F", "Female")), default="M")
-    phone_number = models.CharField(max_length = 15, default="NIL")
-    address = models.CharField(max_length = 50, default="NIL")
-    hmo = models.ForeignKey(hmo,verbose_name="hmo_id", default= 0)
+    phone_number = models.CharField(max_length = 20, default="NIL")
+    address = models.TextField( default="NIL")
+    hmo = models.ForeignKey(hmo,verbose_name="hmo_id", default= hmo.objects.get(name = "PRIVATE").id)
     date_added = models.DateTimeField(default=timezone.now)
     added_by = models.ForeignKey(User, default = User.objects.get(username = "koyexes").id)
-   # origin = models.ForeignKey(state, default = 0)
+    origin = models.ForeignKey(state, default = state.objects.get(state_name = "OTHERS").id)
 
 
     def __str__(self):
