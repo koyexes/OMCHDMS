@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from .forms import LoginForm, PatientForm, DrugForm, HmoForm, ChangePassword
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import hashers
-
 
 # Create your views here.
 
@@ -43,7 +42,8 @@ def index(request):
     else:
         form = LoginForm() # creating new form
         if request.path == "/acms/login/":
-            messages.info(request, "Please log in");
+                messages.info(request, "Please log")
+       
         logout(request) # logging out the user and clearing the user's session
 
     return render(request, 'acms/index.html', {"form": form})
@@ -97,7 +97,7 @@ def drug(request):
             messages.error(request, "Drug couldn't be created")
             return HttpResponseRedirect(reverse('ACMS:workpage'))
     else:
-        return HttpResponseRedirect(reverse('ACMS:workpage'))\
+        return HttpResponseRedirect(reverse('ACMS:workpage'))
 
 @login_required(redirect_field_name = "", login_url = login_url)
 def hmo(request):
@@ -112,6 +112,32 @@ def hmo(request):
             return HttpResponseRedirect(reverse('ACMS:workpage'))
     else:
         return HttpResponseRedirect(reverse('ACMS:workpage'))
+
+@login_required(redirect_field_name = "", login_url = login_url)
+def changePassword(request):
+    if request.method == 'POST':
+        change_password_form = ChangePassword(request.POST, user=request.user)  # binding the form
+        if change_password_form.is_valid(): # checking if form parameters are valid
+            result = hashers.check_password(change_password_form.cleaned_data['currentPassword'], request.user.password)
+            if result: # checking if the formers passwords match
+                if change_password_form.cleaned_data['newPassword'] == change_password_form.cleaned_data['confirmNewPassword']:
+                    change_password_form.save() # changing the former password to the new password
+                    messages.info(request, "Password Changed") # return appropriate messages
+                    return HttpResponseRedirect(reverse('ACMS:password')) # redirecting to the appropriate url
+                else:
+                    messages.error(request, "Couldn't change password, Please contact your Administrator", extra_tags="password")
+                    return HttpResponseRedirect(request.META["HTTP_REFERER"])  # redirect back to the page where the password form was posted
+            else:
+                messages.error(request, "Incorrect Password", extra_tags= "password")
+                return HttpResponseRedirect(request.META["HTTP_REFERER"]) # redirect back to the page where the password form was posted
+
+        else:
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    else:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
 
 
 

@@ -84,7 +84,7 @@
                 <h4 id="modalLabel">Change Password</h4>
               </div><!-- modal-header -->
               <div class="modal-body">
-                 <form id="passwordForm" action="{% url 'ACMS:hmo' %}" method="post">
+                 <form id="passwordForm" action="{% url 'ACMS:change_password' %}" method="post">
                      {% csrf_token %}
                   <div class="form-group">
                     <label for="current-password">Current Password</label>
@@ -110,6 +110,30 @@
     </div><!-- modal -->
     <!-- end of change password modal form -->
 {% endblock changePasswordForm %}
+
+{% block modal_messages %}
+    <!-- alert modal -->
+
+    <div class="modal fade" {% if messages %} id="alert-modal" {% else %} id="dont-alert-modal" {% endif %} tabindex="-1" role="dialog" aria-labelledby="modalLabel"  >
+          <div  class="modal-dialog " role="document">
+            <div  id="form-feedback-alert" class="alert alert-warning alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                  {% for message in messages %}
+                      {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <h4 class="text-success"><strong>Successful</strong></h4>
+                      {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <h4 class="text-danger"><strong>Error</strong></h4>
+                      {% endif %}
+                      <p>{{ message }}</p>
+                  {% endfor %}
+
+            </div>
+          </div><!-- modal-dialog -->
+    </div><!-- modal -->
+    <!-- end of alert modal  -->
+
+{% endblock modal_messages %}
 
 
 {% endblock content %}

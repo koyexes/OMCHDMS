@@ -5,7 +5,9 @@
 $('#loginModalJs').modal('show');// automatically showing the modal login error when a login error occurs
 
 $('#loginModalJs').on('hidden.bs.modal', function(e){
-    $('#loginErrorAlert').alert('close');
+    $('.loginAlert').each(function () {
+       $(this).alert('close');
+    });
     $('#loginModalJs').attr('id', 'loginModal');
     $('#loginForm').trigger('reset');
 });
@@ -42,25 +44,13 @@ $('#form-feedback-alert').on('closed.bs.alert', function () {
 });
 
 /**** homepage section ****/
-// providing the success icon if the new password textfield isn't empty
-/*$('#new-password').keyup( function () {
-    var span = $(this).next('span');
-    var parentDiv = $(this).parent('div.form-group');
-    var newPassword = $(this).val();
-    if ( newPassword !== "") {
-        $(span).addClass('glyphicon glyphicon-ok');
-        $(parentDiv).addClass('has-success');
-    } else {
-        $(span).removeClass('glyphicon glyphicon-ok');
-        $(parentDiv).removeClass('has-success');
-    }
-});*/
-
-$('#new-password').focusout( function () {
-    var newPassword = $(this).val();
+// confirming whether the new password and the confirm password textfield values are the same
+$('#new-password, #confirm-password').focusout( function () {
+    var password_form = $('#passwordForm');
+    var newPassword = $('#new-password').val();
     var confirmPassword = $('#confirm-password').val();
-    var span = $('#passwordForm span.form-control-feedback');
-    var parentDiv = $('#passwordForm div.has-feedback');
+    var span = $(password_form).find('span.form-control-feedback');
+    var parentDiv = $(password_form).find('div.has-feedback');
     if ((newPassword && confirmPassword) && (newPassword === confirmPassword)) {
         $(span).each( function () {
             $(this).removeClass('glyphicon glyphicon-remove ').addClass('glyphicon glyphicon-ok ');
@@ -87,10 +77,10 @@ $('#new-password').focusout( function () {
     }
 });
 
-$('#passwordForm').on('submit', function (e) {
 
-    var newPassword = $($(this).find('input')[2]).val();
-    var confirmPassword = $($(this).find('input')[3]).val();
+$('#passwordForm').on('submit', function (e) {
+    var newPassword = $('#new-password').val();
+    var confirmPassword = $('#confirm-password').val();
     if (newPassword === confirmPassword) {
         $(this).submit();
     }else{

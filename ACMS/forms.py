@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth import hashers
+from django.utils.crypto import get_random_string
 from models import state, hmo, patient, drug
 
 class LoginForm(forms.Form):
@@ -69,14 +72,13 @@ class HmoForm(forms.Form):
 
     def save(self):
         data = self.cleaned_data
-        new_hmo  = hmo_list(name = data['name'], mobile = data['mobile'], email = data['email'], address = data[
+        new_hmo  = hmo(name = data['name'], mobile = data['mobile'], email = data['email'], address = data[
             'address'], hmo_status = int(data['hmo_status']), added_by = self.user)
 
         new_hmo.save()
 
 class ChangePassword(forms.Form):
-    attributes = {'class' : 'form-control'}
-    currentPassword = forms.CharField(required = True, max_length = 128, widget = forms.PasswordInput(attrs = attributes))
+    currentPassword = forms.CharField(required = True, max_length = 128, widget = forms.PasswordInput(attrs = {'id' : 'current-password', 'class' : 'form-control'}))
     newPassword = forms.CharField(required = True, max_length = 128, widget = forms.PasswordInput(attrs = {'id' : 'new-password', 'class' : 'form-control'}))
     confirmNewPassword = forms.CharField(required = True, max_length = 128, widget = forms.PasswordInput(attrs = {
         'id' : 'confirm-password', 'class' : 'form-control'}))
@@ -91,8 +93,9 @@ class ChangePassword(forms.Form):
 
     def save(self):
         data = self.cleaned_data
-        currentPassword = data['currentPassword']
-        newPassword = data['newPassword']
-        confirmNewPassword = data['confirmNewPassword']
+        user = User.objects.get(id = self.user.id)
+        user.password = hashers.make_password(data['newPassword'], get_random_string(32))
+        user.save()
+
 
 
