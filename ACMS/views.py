@@ -7,10 +7,13 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import hashers
+from models import patient, drug, hmo
 
 # Create your views here.
 
 login_url = '/acms/login'
+
+main_context = {}
 
 def index(request):
     if request.method == "POST": # checking if it's a post request
@@ -43,7 +46,7 @@ def index(request):
         form = LoginForm() # creating new form
         if request.path == "/acms/login/":
                 messages.info(request, "Please log")
-       
+
         logout(request) # logging out the user and clearing the user's session
 
     return render(request, 'acms/index.html', {"form": form})
@@ -55,8 +58,9 @@ def homepage(request):
     admin = False
     if request.user.is_staff: admin = True # checking if the user has administrative rights
     change_password_form = ChangePassword(auto_id = False)
-    context = {"name" : "%s %s" % ( request.user.first_name, request.user.last_name), "username" : request.user.username, "admin" : admin, 'change_password_form' : change_password_form} # declaring the template context
-    return render(request, 'acms/homepage.html', context) # rendering the homepage template
+    context = {"name" : "%s %s" % ( request.user.first_name, request.user.last_name), "username" : request.user.username, "admin" : admin, 'change_password_form' : change_password_form, 'total_number_of_patients' : patient.total_number_of_patients(), 'total_number_of_drugs' :drug.total_number_of_drugs(), 'total_number_of_hmos' :hmo.total_number_of_hmos()} # declaring the template context
+    main_context.update(context)
+    return render(request, 'acms/homepage.html', main_context) # rendering the homepage template
 
 @login_required(redirect_field_name="", login_url=login_url)
 def workpage(request):
@@ -71,7 +75,7 @@ def workpage(request):
     return render(request, 'acms/workpage.html', context)
 
 @login_required(redirect_field_name = "", login_url = login_url)
-def patient(request):
+def patient_form_view(request):
     if request.method == 'POST': # checking the request method
         patient_form = PatientForm(request.POST, user = request.user)
         if patient_form.is_valid():
@@ -86,7 +90,7 @@ def patient(request):
 
 
 @login_required(redirect_field_name = "", login_url = login_url)
-def drug(request):
+def drug_form_view(request):
     if request.method == 'POST':
         drug_form = DrugForm(request.POST, user = request.user)
         if drug_form.is_valid():
@@ -100,7 +104,7 @@ def drug(request):
         return HttpResponseRedirect(reverse('ACMS:workpage'))
 
 @login_required(redirect_field_name = "", login_url = login_url)
-def hmo(request):
+def hmo_form_view(request):
     if request.method == 'POST':
         hmo_form = HmoForm(request.POST, user = request.user)
         if hmo_form.is_valid():
@@ -136,6 +140,18 @@ def changePassword(request):
 
     else:
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+@login_required(redirect_field_name="", login_url= login_url)
+def find_patient(request):
+    return render(request, 'acms/find patient.html', main_context)
+
+@login_required(redirect_field_name="", login_url= login_url)
+def find_drug(request):
+    return render(request, 'acms/find drug.html', main_context)
+
+@login_required(redirect_field_name="", login_url= login_url)
+def find_hmo(request):
+    return render(request, 'acms/find hmo.html', main_context)
 
 
 

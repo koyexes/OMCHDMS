@@ -18,6 +18,10 @@ class hmo(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def total_number_of_hmos():
+        return hmo.objects.count()
+
 class state(models.Model):
     state_name = models.CharField("Name of State", max_length=15)
 
@@ -41,6 +45,11 @@ class patient(models.Model):
     def __str__(self):
         return ("%s %s" % (self.surname, self.firstname)).upper()
 
+    @staticmethod
+    def total_number_of_patients():
+        return patient.objects.count()
+
+
 class drug(models.Model):
     drug_name = models.CharField(max_length=50)
     drug_code = models.CharField(max_length=15)
@@ -50,4 +59,6 @@ class drug(models.Model):
     def __str__(self):
         return  ("%s" % self.drug_name).upper()
 
-
+    @staticmethod
+    def total_number_of_drugs():
+        return drug.objects.count()
