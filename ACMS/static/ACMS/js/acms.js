@@ -33,7 +33,7 @@ $('.modalForm').each(function () {
 // shows alert modal for messages to be displayed to users
 $('#alert-modal').modal('show');
 
-// changes the id attribute of the alert modal after closing it
+// changes the id attribute of the alert modal after closing itk
 $('#alert').on('hidden.bs.modal', function(e){
     $('#alert').attr('id', 'dont-alert-modal');
 });

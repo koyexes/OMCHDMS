@@ -13,7 +13,7 @@ from models import patient, drug, hmo
 
 login_url = '/acms/login'
 
-main_context = {}
+main_context = {'change_password_form' : ChangePassword(auto_id = False) , "patient_form" :PatientForm(auto_id=False), 'drug_form': DrugForm(auto_id=False), 'hmo_form': HmoForm(auto_id=False), 'total_number_of_patients' : patient.total_number_of_patients(), 'total_number_of_drugs' :drug.total_number_of_drugs(), 'total_number_of_hmos' :hmo.total_number_of_hmos()}
 
 def index(request):
     if request.method == "POST": # checking if it's a post request
@@ -55,38 +55,27 @@ def index(request):
 
 @login_required(redirect_field_name="", login_url=login_url) # login required to view this page
 def homepage(request):
-    admin = False
-    if request.user.is_staff: admin = True # checking if the user has administrative rights
-    change_password_form = ChangePassword(auto_id = False)
-    context = {"name" : "%s %s" % ( request.user.first_name, request.user.last_name), "username" : request.user.username, "admin" : admin, 'change_password_form' : change_password_form, 'total_number_of_patients' : patient.total_number_of_patients(), 'total_number_of_drugs' :drug.total_number_of_drugs(), 'total_number_of_hmos' :hmo.total_number_of_hmos()} # declaring the template context
+    context = {"user" : request.user} # declaring the template context
     main_context.update(context)
     return render(request, 'acms/homepage.html', main_context) # rendering the homepage template
-
-@login_required(redirect_field_name="", login_url=login_url)
-def workpage(request):
-    admin = False
-    if request.user.is_staff: admin = True
-    patient_form = PatientForm(auto_id= False)
-    drug_form = DrugForm(auto_id = False)
-    hmo_form = HmoForm(auto_id = False)
-    change_password_form = ChangePassword(auto_id = False)
-    context = {"name" : "%s %s" % (request.user.first_name, request.user.last_name), "username" :
-        request.user.username, 'admin': admin, "patient_form" : patient_form, 'drug_form': drug_form, 'hmo_form': hmo_form, 'change_password_form' : change_password_form }
-    return render(request, 'acms/workpage.html', context)
 
 @login_required(redirect_field_name = "", login_url = login_url)
 def patient_form_view(request):
     if request.method == 'POST': # checking the request method
         patient_form = PatientForm(request.POST, user = request.user)
         if patient_form.is_valid():
-            patient_form.save()
-            messages.success(request, str(patient_form))
-            return HttpResponseRedirect(reverse('ACMS:workpage'))
+            result = patient_form.save()
+            if result[0]:
+                messages.success(request, str(patient_form), extra_tags= "form response")
+            else:
+                messages.error(request, result[1], extra_tags="form response")
+
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
         else:
-            messages.error(request, "Patient couldn't be created")
-            return HttpResponseRedirect(reverse('ACMS:workpage'))
+            messages.error(request, "Patient couldn't be created", extra_tags= "form response")
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
     else:
-        return HttpResponseRedirect(reverse('ACMS:workpage'))
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 @login_required(redirect_field_name = "", login_url = login_url)
@@ -94,28 +83,36 @@ def drug_form_view(request):
     if request.method == 'POST':
         drug_form = DrugForm(request.POST, user = request.user)
         if drug_form.is_valid():
-            drug_form.save()
-            messages.success(request, str(drug_form))
-            return HttpResponseRedirect(reverse('ACMS:workpage'))
+            result = drug_form.save()
+            if result[0]:
+                messages.success(request, str(drug_form), extra_tags= "form response, drug")
+            else:
+                messages.error(request, result[1], extra_tags="form response")
+
+            return HttpResponseRedirect(request.META["HTTP_REFERER"] )
         else:
-            messages.error(request, "Drug couldn't be created")
-            return HttpResponseRedirect(reverse('ACMS:workpage'))
+            messages.error(request, "Drug couldn't be created", extra_tags="form response")
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
     else:
-        return HttpResponseRedirect(reverse('ACMS:workpage'))
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 @login_required(redirect_field_name = "", login_url = login_url)
 def hmo_form_view(request):
     if request.method == 'POST':
         hmo_form = HmoForm(request.POST, user = request.user)
         if hmo_form.is_valid():
-            hmo_form.save()
-            messages.success(request, str(hmo_form))
-            return HttpResponseRedirect(reverse('ACMS:workpage'))
+            result = hmo_form.save()
+            if result[0]:
+                messages.success(request, str(hmo_form), extra_tags= "form response")
+            else:
+                messages.error(request, result[1], extra_tags="form response")
+
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
         else:
-            messages.error(request, "HMO couldn't be created")
-            return HttpResponseRedirect(reverse('ACMS:workpage'))
+            messages.error(request, "HMO couldn't be created", extra_tags= "form response")
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
     else:
-        return HttpResponseRedirect(reverse('ACMS:workpage'))
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 @login_required(redirect_field_name = "", login_url = login_url)
 def changePassword(request):

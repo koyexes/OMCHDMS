@@ -249,7 +249,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="{% static 'ACMS/AdminLTE-2.3.7/dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image">
-              <span class="hidden-xs">{{ username }}</span>
+              <span class="hidden-xs">{{ user.username }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -257,7 +257,7 @@
                 <img src="{% static 'ACMS/AdminLTE-2.3.7/dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image">
 
                 <p>
-                    {{ name }}
+                    {{ user.last_name }} {{ user.first_name }}
                   <small>Member since Nov. 2012</small>
                 </p>
               </li>
@@ -306,7 +306,7 @@
           <img src="{% static 'ACMS/AdminLTE-2.3.7/dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>{{ name }}</p>
+          <p>{{ user.last_name }} {{ user.first_name }}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -340,7 +340,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> New Patient</a></li>
+            <li><a href="#" role = "button" data-target="#patientFormModal" data-toggle="modal"><i class="fa fa-circle-o"></i> New Patient</a></li>
             <li><a href="{%  url 'ACMS:find_patient'  %}"><i class="fa fa-circle-o"></i> Find Patient</a></li>
           </ul>
         </li>
@@ -354,7 +354,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> New Drug</a></li>
+            <li><a href="#" role = "button" data-toggle="modal" data-target="#drugFormModal"><i class="fa fa-circle-o"></i> New Drug</a></li>
             <li><a href="{%  url 'ACMS:find_drug' %}"><i class="fa fa-circle-o"></i> Find Drug</a></li>
           </ul>
         </li>
@@ -368,7 +368,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> New HMO</a></li>
+            <li><a href="#" role = "button" data-toggle="modal" data-target="#hmoFormModal"><i class="fa fa-circle-o"></i> New HMO</a></li>
             <li><a href="{% url 'ACMS:find_hmo' %}"><i class="fa fa-circle-o"></i> Find HMO</a></li>
           </ul>
         </li>
@@ -395,6 +395,9 @@
           </a>
         </li>
         <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
+        {% if user.is_staff %}
+            <li><a href="/admin/" target="_blank"><i class="fa fa-user-secret"></i> <span>Admin</span></a></li>
+        {% endif %}
         <li class="header">LABELS</li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
         <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
@@ -417,10 +420,50 @@
 
       <ol class="breadcrumb">
         <li><a href="{%  url 'ACMS:homepage' %}"><i class="fa fa-dashboard"></i> Home</a></li>
+  <!-- breadcrumb block -->
         {% block breadcrumb %}
 
         {% endblock breadcrumb %}
       </ol>
+        <br>
+
+      {% for message in messages %}
+          {% if 'form response' in message.tags %}
+              <div class="box {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}box-success{% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}box-danger{% endif %} box-solid collapsed-box">
+                <div class="box-header with-border">
+                  <h4 style="font-size: small !important;" class="box-title">
+
+                      {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                          Successfully created
+                      {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                          Oops! an error occured
+
+                      {% endif %}
+                  </h4>
+
+                  <div class="box-tools pull-right">
+                    <button id="form-response-details-button" type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                     <button type="button" class="btn btn-box-tool" data-widget="remove">
+                        <i class="fa fa-times"></i>
+                     </button>
+                  </div>
+                  <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  {{ message }}
+                </div>
+                 <!-- /.box-body -->
+              </div>
+                        <!-- /.box -->
+          {% endif %}
+
+
+      {% endfor %}
+
+
     </section>
 
     <!-- Main content -->
@@ -634,6 +677,133 @@
 </div>
 <!-- ./wrapper -->
 
+<!-- patient form -->
+<div class="modal fade modalForm" id="patientFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-backdrop ="static" >
+      <div  class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" name="button" class="close" data-dismiss="modal" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 id="modalLabel" class="text-red text-center" >New Patient</h4>
+          </div><!-- modal-header -->
+          <div class="modal-body">
+             <form id="patientForm" action="{% url 'ACMS:patient' %}" method="post">
+                 {% csrf_token %}
+              <div class="form-group">
+                <label for="surname">Surname<span class="text-red">*</span></label>
+                  {{ patient_form.surname }}
+              </div>
+              <div class="form-group">
+                <label for="firstname">Firstname<span class="text-red">*</span></label>
+                {{ patient_form.firstname }}
+              </div>
+              <div class="form-group">
+                <label for="othername">Othername</label>
+                {{ patient_form.othername }}
+              </div>
+              <div class="form-group">
+                <label for="cardNo">Card No<span class="text-red">*</span></label>
+                {{ patient_form.cardNo }}
+              </div>
+              <div class="form-group">
+                <label for="gender">Gender<span class="text-red">*</span></label>
+                    {{ patient_form.gender }}
+              </div>
+               <div class="form-group">
+                <label for="mobile">Mobile<span class="text-red">*</span></label>
+                {{ patient_form.mobileNo }}
+              </div>
+              <div class="form-group">
+                <label for="hmo">HMO<span class="text-red">*</span></label>
+                {{ patient_form.hmo }}
+              </div>
+              <div class="form-group">
+                <label for="origin">State of Origin<span class="text-red">*</span></label>
+                {{ patient_form.origin }}
+              </div>
+              <div class="form-group">
+                <label for="address">Address<span class="text-red">*</span></label>
+                {{ patient_form.address }}
+              </div>
+              <div class="form-group">
+                  <input style="width: 100%" class= "btn btn-danger" type="submit" value="Submit" >
+              </div>
+            </form>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of patient modal form -->
+
+!-- drug form -->
+<div class="modal fade modalForm" id="drugFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-backdrop ="static" >
+      <div  class="modal-dialog modal-sm " role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" name="button" class="close" data-dismiss="modal" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 id="modalLabel" class="text-red text-center">New Drug</h4>
+          </div><!-- modal-header -->
+          <div class="modal-body">
+             <form id="drugForm" action="{% url 'ACMS:drug' %}" method="post">
+                 {% csrf_token %}
+              <div class="form-group">
+                <label for="drugname">Drug Name<span class="text-red">*</span></label>
+                {{ drug_form.drug_name }}
+              </div>
+              <div class="form-group">
+                <label for="drugcode">Drug Code<span class="text-red">*</span></label>
+                {{ drug_form.drug_code }}
+              </div>
+              <div class="form-group">
+                  <input style="width: 100%" class= "btn btn-danger" type="submit" value="Add Drug" >
+              </div>
+            </form>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of drug modal form -->
+
+<!-- hmo form -->
+<div class="modal fade modalForm " id="hmoFormModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-backdrop ="static" >
+      <div  class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" name="button" class="close" data-dismiss="modal" arial-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 id="modalLabel" class="text-red text-center">New HMO</h4>
+          </div><!-- modal-header -->
+          <div class="modal-body">
+             <form id="hmoForm" action="{% url 'ACMS:hmo' %}" method="post">
+                 {% csrf_token %}
+              <div class="form-group ">
+                <label for="name">HMO Name<span class="text-red">*</span></label>
+                {{ hmo_form.name }}
+              </div>
+              <div class="form-group">
+                <label for="mobile">Mobile No<span class="text-red">*</span></label>
+                {{ hmo_form.mobile }}
+              </div>
+              <div class="form-group">
+                <label for="email">Email<span class="text-red">*</span></label>
+                {{ hmo_form.email }}
+              </div>
+              <div class="form-group">
+                <label for="address">Address<span class="text-red">*</span></label>
+                {{ hmo_form.address }}
+              </div>
+              <div class="form-group">
+                <label for="hmo_status">Status<span class="text-red">*</span></label>
+                {{ hmo_form.hmo_status }}
+              </div>
+              <div class="form-group">
+                  <input style="width: 100%" class= "btn btn-danger" type="submit" value="Add HMO" >
+              </div>
+            </form>
+          </div><!-- modal-body -->
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!-- end of hmo modal form -->
+
 <!-- jQuery 2.2.3 -->
 <script src='{% static "ACMS/AdminLTE-2.3.7/plugins/jQuery/jquery-2.2.3.min.js" %}'></script>
 <!-- Bootstrap 3.3.6 -->
@@ -655,5 +825,9 @@
 <script src='{%  static "ACMS/AdminLTE-2.3.7/dist/js/pages/dashboard2.js" %} '></script>
 <!-- AdminLTE for demo purposes -->
 <script src='{% static "ACMS/AdminLTE-2.3.7/dist/js/demo.js" %}'></script>
+<!-- custom javascript -->
+<script src="{% static 'ACMS/js/acms.js' %}"></script>
+
+
 </body>
 </html>
