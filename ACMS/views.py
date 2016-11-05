@@ -63,6 +63,7 @@ def homepage(request):
 def patient_form_view(request):
     if request.method == 'POST': # checking the request method
         patient_form = PatientForm(request.POST, user = request.user)
+        request.session['form_response_heading'] = '1 patient'
         if patient_form.is_valid():
             result = patient_form.save()
             if result[0]:
@@ -82,10 +83,11 @@ def patient_form_view(request):
 def drug_form_view(request):
     if request.method == 'POST':
         drug_form = DrugForm(request.POST, user = request.user)
+        request.session['form_response_heading'] = '1 drug'
         if drug_form.is_valid():
             result = drug_form.save()
             if result[0]:
-                messages.success(request, str(drug_form), extra_tags= "form response, drug")
+                messages.success(request, str(drug_form), extra_tags= "form response")
             else:
                 messages.error(request, result[1], extra_tags="form response")
 
@@ -96,10 +98,12 @@ def drug_form_view(request):
     else:
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
+
 @login_required(redirect_field_name = "", login_url = login_url)
 def hmo_form_view(request):
     if request.method == 'POST':
         hmo_form = HmoForm(request.POST, user = request.user)
+        request.session['form_response_heading'] = '1 hmo'
         if hmo_form.is_valid():
             result = hmo_form.save()
             if result[0]:
@@ -113,6 +117,7 @@ def hmo_form_view(request):
             return HttpResponseRedirect(request.META["HTTP_REFERER"])
     else:
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
 
 @login_required(redirect_field_name = "", login_url = login_url)
 def changePassword(request):

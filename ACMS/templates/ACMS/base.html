@@ -434,7 +434,7 @@
                   <h4 style="font-size: small !important;" class="box-title">
 
                       {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                          Successfully created
+                          Successfully created {{ request.session.form_response_heading }}
                       {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                           Oops! an error occured
 

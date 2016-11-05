@@ -12,7 +12,7 @@ class PatientForm(forms.Form):
     attributes = {'class' : 'form-control', 'required' : 'True'}
     surname = forms.CharField(max_length=15,  widget= forms.TextInput(attrs= attributes))
     firstname = forms.CharField(max_length= 15, widget= forms.TextInput(attrs= attributes))
-    othername = forms.CharField(max_length= 15, widget= forms.TextInput(attrs= {'class' : 'form-control', 'required' : 'False'}))
+    othername = forms.CharField(max_length= 15, widget= forms.TextInput(attrs= {'class' : 'form-control'}))
     cardNo = forms.CharField(max_length=15,  widget= forms.TextInput(attrs= attributes))
     gender = forms.ChoiceField(choices= (("M", "Male"), ("F", "Female")), initial= "M", widget= forms.Select(attrs=attributes))
     mobileNo = forms.CharField( widget= forms.TextInput(attrs= attributes))
@@ -57,7 +57,7 @@ class DrugForm(forms.Form):
         new_drug = drug(drug_name = data['drug_name'], drug_code = data['drug_code'], added_by = self.user)
         try:
             new_drug.save()
-            return [False, "%s with Drug Code: %s wasn't created" % ((data['drug_name']).upper(), (data['drug_code']).upper())]
+            return [True, "%s with Drug Code: %s wasn't created" % ((data['drug_name']).upper(), (data['drug_code']).upper())]
 
         except Exception:
             return [False, "%s with Drug Code: %s wasn't created" % ((data['drug_name']).upper(), (data['drug_code']).upper()) ]
