@@ -128,7 +128,7 @@ def changePassword(request):
             if result: # checking if the formers passwords match
                 if change_password_form.cleaned_data['newPassword'] == change_password_form.cleaned_data['confirmNewPassword']:
                     change_password_form.save() # changing the former password to the new password
-                    messages.info(request, "Password Changed") # return appropriate messages
+                    messages.info(request, "Please log in with the new password") # return appropriate messages
                     return HttpResponseRedirect(reverse('ACMS:password')) # redirecting to the appropriate url
                 else:
                     messages.error(request, "Couldn't change password, Please contact your Administrator", extra_tags="password")

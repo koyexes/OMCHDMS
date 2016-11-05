@@ -43,9 +43,9 @@ $('#form-feedback-alert').on('closed.bs.alert', function () {
     $('#alert-modal').modal('hide');
 });
 
-/**** homepage section ****/
+/**** password change  section ****/
 // confirming whether the new password and the confirm password textfield values are the same
-$('#new-password, #confirm-password').focusout( function () {
+$('#new-password, #confirm-password').keyup( function () {
     var password_form = $('#passwordForm');
     var newPassword = $('#new-password').val();
     var confirmPassword = $('#confirm-password').val();
@@ -78,6 +78,16 @@ $('#new-password, #confirm-password').focusout( function () {
 });
 
 
+// removing the error or success indicator from the new and confirm password field when the modal closes
+$('#passwordFormModal').on('hidden.bs.modal', function () {
+    var password_form = $('#passwordForm');
+    var span = $(password_form).find('span.form-control-feedback');
+    var parentDiv = $(password_form).find('div.has-feedback');
+    $(span).removeClass('glyphicon glyphicon-ok glyphicon-remove');
+    $(parentDiv).removeClass('has-error has-success');
+
+});
+
 $('#passwordForm').on('submit', function (e) {
     var newPassword = $('#new-password').val();
     var confirmPassword = $('#confirm-password').val();
@@ -85,7 +95,7 @@ $('#passwordForm').on('submit', function (e) {
         $(this).submit();
     }else{
         e.preventDefault();
-        alert("the confirm password doesnt match with the new password ");
+        alert("Password mismatch!!!");
     }
 });
 
