@@ -12,7 +12,7 @@ class PatientForm(forms.Form):
     attributes = {'class' : 'form-control', 'required' : 'True'}
     surname = forms.CharField(max_length=15,  widget= forms.TextInput(attrs= attributes))
     firstname = forms.CharField(max_length= 15, widget= forms.TextInput(attrs= attributes))
-    othername = forms.CharField(max_length= 15, widget= forms.TextInput(attrs= {'class' : 'form-control'}))
+    othername = forms.CharField(max_length= 15, required=False, widget= forms.TextInput(attrs= {'class' : 'form-control'}))
     cardNo = forms.CharField(max_length=15,  widget= forms.TextInput(attrs= attributes))
     gender = forms.ChoiceField(choices= (("M", "Male"), ("F", "Female")), initial= "M", widget= forms.Select(attrs=attributes))
     mobileNo = forms.CharField( widget= forms.TextInput(attrs= attributes))

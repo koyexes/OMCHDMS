@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="adc23f34-5f97-4755-8303-8682ba0b216a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ACMS/forms.py" afterPath="$PROJECT_DIR$/ACMS/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ACMS/templates/ACMS/base.html" afterPath="$PROJECT_DIR$/ACMS/templates/ACMS/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ACMS/views.py" afterPath="$PROJECT_DIR$/ACMS/views.py" />
     </list>
     <ignored path="OMCHDMS.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,17 +27,17 @@
         <entry file="file://$PROJECT_DIR$/ACMS/forms.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="14" column="104" selection-start-line="14" selection-start-column="104" selection-end-line="14" selection-end-column="104" />
+              <caret line="14" column="63" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
-                <element signature="e#1607#1769#0" expanded="true" />
-                <element signature="e#1801#2457#0" expanded="true" />
-                <element signature="e#2951#3092#0" expanded="true" />
-                <element signature="e#3122#3578#0" expanded="true" />
-                <element signature="e#4261#4352#0" expanded="true" />
-                <element signature="e#4385#4463#0" expanded="true" />
-                <element signature="e#4493#4878#0" expanded="true" />
-                <element signature="e#5739#6018#0" expanded="true" />
+                <element signature="e#1623#1785#0" expanded="true" />
+                <element signature="e#1817#2473#0" expanded="true" />
+                <element signature="e#2967#3108#0" expanded="true" />
+                <element signature="e#3138#3594#0" expanded="true" />
+                <element signature="e#4277#4368#0" expanded="true" />
+                <element signature="e#4401#4479#0" expanded="true" />
+                <element signature="e#4509#4894#0" expanded="true" />
+                <element signature="e#5755#6034#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1199,17 +1197,17 @@
     <entry file="file://$PROJECT_DIR$/ACMS/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
-          <caret line="14" column="104" selection-start-line="14" selection-start-column="104" selection-end-line="14" selection-end-column="104" />
+          <caret line="14" column="63" selection-start-line="14" selection-start-column="63" selection-end-line="14" selection-end-column="63" />
           <folding>
             <element signature="e#0#24#0" expanded="true" />
-            <element signature="e#1607#1769#0" expanded="true" />
-            <element signature="e#1801#2457#0" expanded="true" />
-            <element signature="e#2951#3092#0" expanded="true" />
-            <element signature="e#3122#3578#0" expanded="true" />
-            <element signature="e#4261#4352#0" expanded="true" />
-            <element signature="e#4385#4463#0" expanded="true" />
-            <element signature="e#4493#4878#0" expanded="true" />
-            <element signature="e#5739#6018#0" expanded="true" />
+            <element signature="e#1623#1785#0" expanded="true" />
+            <element signature="e#1817#2473#0" expanded="true" />
+            <element signature="e#2967#3108#0" expanded="true" />
+            <element signature="e#3138#3594#0" expanded="true" />
+            <element signature="e#4277#4368#0" expanded="true" />
+            <element signature="e#4401#4479#0" expanded="true" />
+            <element signature="e#4509#4894#0" expanded="true" />
+            <element signature="e#5755#6034#0" expanded="true" />
           </folding>
         </state>
       </provider>
